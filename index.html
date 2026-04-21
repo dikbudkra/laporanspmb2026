@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Laporan SPMB 2026</title>
     <style>
-        /* Pengaturan Dasar Halaman */
+        /* Pengaturan Dasar */
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #f0f2f5; overflow: hidden; }
         
-        /* Desain Kotak Login */
+        /* Desain Halaman Login */
         #login-screen {
             display: flex; justify-content: center; align-items: center;
             height: 100vh; flex-direction: column;
@@ -28,15 +28,14 @@
         }
         button:hover { background: #1557b0; }
         
-        /* Container Aplikasi (MEMPRIORITASKAN HEADER UTUH) */
+        /* Container Aplikasi - Header Aman */
         #app-container { display: none; width: 100%; height: 100vh; position: relative; overflow: hidden; }
         iframe {
-            /* Perubahan di sini: Tidak ada lagi penarikan ke atas agar header tidak terpotong */
-            position: relative;
-            width: 100%;
+            position: absolute;
+            top: 0; /* Header tetap utuh, tidak terpotong */
+            left: 0; 
+            width: 100%; 
             height: 100%;
-            top: 0;
-            left: 0;
             border: none;
         }
     </style>
@@ -63,8 +62,8 @@
             var user = document.getElementById("userInput").value;
             var pass = document.getElementById("passInput").value;
 
-            // --- ATUR USERNAME & PASSWORD DI SINI ---
-            if (user === "admin" && pass === "admin") {
+            // Gunakan User: admin & Pass: dikbud2026
+            if (user === "admin" && pass === "dikbud2026") {
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("app-container").style.display = "block";
             } else {
@@ -72,7 +71,7 @@
             }
         }
 
-        // Fitur: Menekan Enter di keyboard akan otomatis klik tombol Masuk
+        // Jalankan fungsi login saat menekan tombol Enter
         document.addEventListener("keypress", function(e) {
             if (e.key === "Enter") { prosesLogin(); }
         });
