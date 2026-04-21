@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Laporan SPMB 2026</title>
+    <style>
+        /* Pengaturan Dasar Halaman */
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #f0f2f5; overflow: hidden; }
+        
+        /* Desain Kotak Login */
+        #login-screen {
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; flex-direction: column;
+        }
+        .login-box {
+            background: white; padding: 40px; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 320px;
+        }
+        .login-box h2 { color: #1a73e8; margin-bottom: 20px; font-size: 24px; }
+        input {
+            width: 100%; padding: 12px; margin: 10px 0;
+            border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px;
+        }
+        button {
+            width: 100%; padding: 12px; background: #1a73e8;
+            color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px;
+        }
+        button:hover { background: #1557b0; }
+        
+        /* Container Aplikasi (Banner Dihilangkan) */
+        #app-container { display: none; width: 100%; height: 100vh; position: relative; overflow: hidden; }
+        iframe {
+            position: absolute;
+            /* Trik CSS: Menarik iframe ke atas sejauh 45px untuk membuang banner Google keluar layar */
+            top: -45px; 
+            left: 0; width: 100%; height: calc(100vh + 45px);
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <h2>Sistem Laporan</h2>
+            <p style="color: #5f6368; font-size: 14px;">Masukkan Username & Password</p>
+            <input type="text" id="userInput" placeholder="Username">
+            <input type="password" id="passInput" placeholder="Password">
+            <button onclick="prosesLogin()">Masuk</button>
+            <p id="error-msg" style="color: #d93025; font-size: 13px; display: none; margin-top: 15px;">Username atau Password salah!</p>
+        </div>
+    </div>
+
+    <div id="app-container">
+        <iframe src="https://script.google.com/macros/s/AKfycbyRFlyqespl9wLPtsdXw3MgpQ8SGHscbxd1zZZo8K7Fz13omVF0kgKRHXFl8KSB1GrU/exec"></iframe>
+    </div>
+
+    <script>
+        function prosesLogin() {
+            var user = document.getElementById("userInput").value;
+            var pass = document.getElementById("passInput").value;
+
+            // --- ATUR USERNAME & PASSWORD DI SINI ---
+            // Anda bisa mengganti 'admin' dan 'dikbud2026' sesuai keinginan
+            if (user === "adminSPMB" && pass === "spmbKra2026") {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("app-container").style.display = "block";
+            } else {
+                document.getElementById("error-msg").style.display = "block";
+            }
+        }
+
+        // Fitur: Menekan Enter di keyboard akan otomatis klik tombol Masuk
+        document.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") { prosesLogin(); }
+        });
+    </script>
+</body>
+</html>
