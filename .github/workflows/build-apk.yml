@@ -1,0 +1,69 @@
+name: Build Android APK
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Siapkan Lingkungan Capacitor
+        run: |
+          npm init -y
+          npm install @capacitor/core @capacitor/android
+          npm install -D @capacitor/cli @capacitor/assets
+          
+          # Membuat folder dummy agar Capacitor mau berjalan
+          mkdir -p www
+          echo "<html><body>Laporan SPMB 2026</body></html>" > www/index.html
+          
+          # Konfigurasi agar aplikasi langsung membuka link laporan Anda
+          cat <<EOF > capacitor.config.json
+          {
+            "appId": "com.laporanspmb.app",
+            "appName": "Laporan SPMB 2026",
+            "webDir": "www",
+            "server": {
+              "url": "https://dikbudkra.github.io/laporanspmb2026/",
+              "cleartext": true
+            }
+          }
+          EOF
+          
+          npx cap add android
+
+      - name: Pasang Ikon (Jika ada file icon.png)
+        run: |
+          if [ -f "icon.png" ]; then
+            mkdir -p assets
+            cp icon.png assets/icon.png
+            npx capacitor-assets generate --android
+            rm -rf android/app/src/main/res/mipmap-anydpi-v26
+          fi
+
+      - name: Rakit APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload File APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: APK-Laporan-SPMB-2026
+          path: android/app/build/outputs/apk/debug/app-debug.apk
