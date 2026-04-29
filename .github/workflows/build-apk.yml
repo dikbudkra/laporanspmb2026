@@ -22,17 +22,20 @@ jobs:
         with:
           node-version: 20
 
-      - name: Siapkan Lingkungan Capacitor
+      - name: Siapkan Lingkungan & Ikon
         run: |
+          # 1. Inisialisasi npm
           npm init -y
+          
+          # 2. Install Capacitor dan Alat Pembuat Ikon (Capacitor Assets)
           npm install @capacitor/core @capacitor/android
           npm install -D @capacitor/cli @capacitor/assets
           
-          # Membuat folder dummy agar Capacitor mau berjalan
+          # 3. Buat folder dummy
           mkdir -p www
-          echo "<html><body>Laporan SPMB 2026</body></html>" > www/index.html
+          echo "<html><body>Menyiapkan Laporan SPMB...</body></html>" > www/index.html
           
-          # Konfigurasi agar aplikasi langsung membuka link laporan Anda
+          # 4. Buat konfigurasi capacitor otomatis
           cat <<EOF > capacitor.config.json
           {
             "appId": "com.laporanspmb.app",
@@ -45,25 +48,39 @@ jobs:
           }
           EOF
           
+          # 5. Tambahkan platform Android
           npx cap add android
-
-      - name: Pasang Ikon (Jika ada file icon.png)
-        run: |
+          
+          # 6. Pasang Ikon secara otomatis (perintah sakti)
+          mkdir -p assets
           if [ -f "icon.png" ]; then
-            mkdir -p assets
             cp icon.png assets/icon.png
             npx capacitor-assets generate --android
+            
+            # Hapus paksa folder adaptive icon bawaan agar Android dipaksa pakai ikon PNG kita
             rm -rf android/app/src/main/res/mipmap-anydpi-v26
           fi
 
-      - name: Rakit APK
+      - name: Rakit APK dan Atasi Bentrok Kotlin
         run: |
           cd android
+          
+          # Obat penangkal error Duplicate Class Kotlin
+          cat <<EOF >> app/build.gradle
+          
+          configurations.all {
+              resolutionStrategy {
+                  exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
+                  exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
+              }
+          }
+          EOF
+          
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Upload File APK
+      - name: Kirim File APK ke saya
         uses: actions/upload-artifact@v4
         with:
-          name: APK-Laporan-SPMB-2026
+          name: Aplikasi-Laporan-SPMB-Siap-Pakai
           path: android/app/build/outputs/apk/debug/app-debug.apk
