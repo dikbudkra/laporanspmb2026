@@ -39,7 +39,7 @@ jobs:
           cat <<EOF > capacitor.config.json
           {
             "appId": "com.laporanspmb.app",
-            "appName": "Laporan SPMB 2026",
+            "appName": "Laporan SPMB",
             "webDir": "www",
             "server": {
               "url": "https://dikbudkra.github.io/laporanspmb2026/",
