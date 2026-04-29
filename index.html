@@ -8,31 +8,11 @@
         /* Pengaturan Dasar */
         body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #f0f2f5; overflow: hidden; }
         
-        /* Desain Halaman Login */
-        #login-screen {
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; flex-direction: column;
-        }
-        .login-box {
-            background: white; padding: 40px; border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 320px;
-        }
-        .login-box h2 { color: #1a73e8; margin-bottom: 20px; font-size: 24px; }
-        input {
-            width: 100%; padding: 12px; margin: 10px 0;
-            border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px;
-        }
-        button {
-            width: 100%; padding: 12px; background: #1a73e8;
-            color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px;
-        }
-        button:hover { background: #1557b0; }
-        
-        /* Container Aplikasi - Header Aman */
-        #app-container { display: none; width: 100%; height: 100vh; position: relative; overflow: hidden; }
+        /* Container Aplikasi - Langsung Tampil */
+        #app-container { width: 100%; height: 100vh; position: relative; overflow: hidden; }
         iframe {
             position: absolute;
-            top: 0; /* Header tetap utuh, tidak terpotong */
+            top: 0; 
             left: 0; 
             width: 100%; 
             height: 100%;
@@ -42,39 +22,9 @@
 </head>
 <body>
 
-    <div id="login-screen">
-        <div class="login-box">
-            <h2>Laporan SPMB Online</h2>
-            <p style="color: #5f6368; font-size: 14px;">Masukkan Username & Password</p>
-            <input type="text" id="userInput" placeholder="Username">
-            <input type="password" id="passInput" placeholder="Password">
-            <button onclick="prosesLogin()">Masuk</button>
-            <p id="error-msg" style="color: #d93025; font-size: 13px; display: none; margin-top: 15px;">Username atau Password salah!</p>
-        </div>
-    </div>
-
     <div id="app-container">
         <iframe src="https://script.google.com/macros/s/AKfycbw6yYJD-zfA19ZJhUmzqKApkoPyDOGFTMcYO6keT5-EzqkUAbmlvlHxvl37o9Z5OLC7/exec"></iframe>
     </div>
 
-    <script>
-        function prosesLogin() {
-            var user = document.getElementById("userInput").value;
-            var pass = document.getElementById("passInput").value;
-
-            // Gunakan User: admin & Pass: dikbud2026
-            if (user === "spmb" && pass === "AdmDikbud2026") {
-                document.getElementById("login-screen").style.display = "none";
-                document.getElementById("app-container").style.display = "block";
-            } else {
-                document.getElementById("error-msg").style.display = "block";
-            }
-        }
-
-        // Jalankan fungsi login saat menekan tombol Enter
-        document.addEventListener("keypress", function(e) {
-            if (e.key === "Enter") { prosesLogin(); }
-        });
-    </script>
 </body>
 </html>
